@@ -877,6 +877,13 @@ const S1_QUESTIONS = [
     ans: 'B',
     exp: '數據飛輪（Data Flywheel / Virtuous Cycle）是 AI 競爭優勢的核心概念：用戶使用產品產生資料 → 資料用於改善 AI 模型 → 更好的模型提升用戶體驗 → 吸引更多用戶。Tesla 的駕駛資料、Google 的搜尋資料均形成強大飛輪效應，使後進者難以追趕。',
   },
+  {
+    subject: '科目一',
+    q: '「詞嵌入（Word Embedding）」技術（如 Word2Vec）相較於 One-Hot Encoding 的優勢是？',
+    opts: ['A. One-Hot Encoding 能捕捉詞義相似性；Word Embedding 不行', 'B. Word Embedding 將詞映射至低維稠密向量，能捕捉語意相似性（語意相近的詞向量距離近）', 'C. Word Embedding 只能用於英文；One-Hot 支援任何語言', 'D. One-Hot Encoding 訓練速度比 Word Embedding 慢'],
+    ans: 'B',
+    exp: 'One-Hot Encoding 將每個詞表示為稀疏向量（維度等於詞彙量），無法反映詞間語義關係。Word2Vec（Skip-gram / CBOW）透過預測上下文詞訓練低維稠密向量，使語意相近的詞（如 "king"、"queen"）向量距離相近，並支援向量運算（King - Man + Woman ≈ Queen）。現代 LLM 使用上下文相關的動態 Embedding（如 BERT）。',
+  },
 ];
 
 
@@ -1282,5 +1289,26 @@ const S2_QUESTIONS = [
     opts: ['A. 將所有資料集中至中央資料平台由統一團隊管理', 'B. 以業務領域為單位，各領域團隊自治管理並發布資料產品，分散式治理替代集中式', 'C. 使用微服務架構取代單體資料倉儲', 'D. 讓每個應用系統直接讀取其他系統的生產資料庫'],
     ans: 'B',
     exp: 'Data Mesh（Zhamak Dehghani 提出）的四大原則：①領域導向所有權（Domain Ownership）—— 各業務領域擁有自己的資料；②資料即產品（Data as a Product）—— 資料需有 SLA 和文件；③自助式資料平台（Self-Serve Platform）；④聯邦計算治理（Federated Governance）。解決集中式資料湖團隊成為瓶頸的問題。',
+  },
+  {
+    subject: '科目二',
+    q: '「邏輯迴歸（Logistic Regression）」輸出值的意義是？',
+    opts: ['A. 預測目標變數的連續數值', 'B. 透過 Sigmoid 函數將線性組合轉換為 0~1 的機率，代表屬於正類的機率', 'C. 輸出每個類別到超平面的距離分數', 'D. 直接輸出 0 或 1 的硬分類標籤'],
+    ans: 'B',
+    exp: '邏輯迴歸使用 Sigmoid 函數：P(y=1|x) = 1/(1+e^(-z))，將線性組合 z=w·x+b 映射至 [0,1] 機率空間，以 0.5 為預設閾值分類（可調整以平衡 Precision/Recall）。雖名為「迴歸」，實為二元分類演算法，可解釋性高，是信用評分、疾病預測等領域的常用基線模型。',
+  },
+  {
+    subject: '科目二',
+    q: '線性迴歸評估中「R²（決定係數）」的意義是？',
+    opts: ['A. 預測值與真實值差的平均絕對值', 'B. 模型解釋目標變數總變異的比例，1 為完美擬合，0 等同直接用均值預測', 'C. 訓練集準確率的百分比', 'D. 殘差的均方根'],
+    ans: 'B',
+    exp: 'R²（決定係數）= 1 - SS_殘差/SS_總變異，反映模型解釋了多少目標變數的變異量。R²=1：完美擬合；R²=0：預測效果等同均值；R²<0：模型比均值更差。與 RMSE/MAE 互補使用：RMSE 反映絕對誤差大小，R² 反映相對解釋能力，是迴歸模型的核心評估指標之一。',
+  },
+  {
+    subject: '科目二',
+    q: 'Spark 中「廣播 JOIN（Broadcast Join）」的適用情境是？',
+    opts: ['A. 兩個超大資料表進行 JOIN', 'B. 將小型資料表廣播至所有節點記憶體，大表在本地直接 JOIN，避免 Shuffle 的網路傳輸', 'C. 跨多個 Spark 叢集的分散式 JOIN', 'D. 僅支援 Key-Value 格式資料的 JOIN'],
+    ans: 'B',
+    exp: 'Broadcast Join（Map-side Join）將小表（通常 < 10MB，可調 spark.sql.autoBroadcastJoinThreshold）廣播複製到每個 Executor 節點記憶體，大表分區在本地完成 JOIN，完全避免 Shuffle。比 Sort-Merge Join（需雙方 Shuffle）效能顯著更高。可手動用 broadcast() 函數觸發，適合大表 JOIN 維度表的 Star Schema 查詢。',
   },
 ];
