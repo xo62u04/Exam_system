@@ -37,6 +37,67 @@ const S1_NOTES = [
         kw: '多模態 AI',
         text: '同時處理文字＋影像＋音訊等多種輸入，例：GPT-4V、Gemini、DALL-E（文字→圖像）',
       },
+      {
+        kw: '學習方式分類',
+        text: '',
+        sub: [
+          '監督式學習（Supervised）：有標注 (X, Y)，學習映射關係 → 分類、迴歸',
+          '非監督式學習（Unsupervised）：無標注，發現資料結構 → 分群、降維、異常偵測',
+          '半監督式學習（Semi-supervised）：少量標注 + 大量無標注資料',
+          '自監督學習（Self-supervised）：從資料本身構造監督信號（如 BERT 遮蔽預測）',
+          '強化學習（RL）：Agent 與環境互動，透過獎勵信號學習最佳策略',
+        ],
+      },
+      {
+        kw: '激活函數',
+        text: '',
+        sub: [
+          'ReLU：f(x) = max(0, x)，最常用，計算快，可能有 Dead Neuron 問題',
+          'Sigmoid：f(x) = 1/(1+e^-x)，輸出 [0,1]，二元分類輸出層；有梯度消失問題',
+          'Softmax：多分類輸出層，將向量轉為機率分佈（總和=1）',
+          'GELU：Transformer 常用，比 ReLU 更平滑',
+        ],
+      },
+      {
+        kw: '過擬合（Overfitting）防止方法',
+        text: '',
+        sub: [
+          'Dropout：訓練時隨機丟棄部分神經元，防止依賴特定特徵',
+          'L1/L2 正則化：在損失函數加入權重懲罰項',
+          'Early Stopping：驗證損失不再下降時停止訓練',
+          'Data Augmentation：透過旋轉/翻轉/裁切等增加訓練樣本多樣性',
+          'K-Fold 交叉驗證：更可靠地評估泛化能力',
+        ],
+      },
+      {
+        kw: 'VAE（變分自編碼器）vs GAN',
+        text: '',
+        sub: [
+          'VAE：編碼器→潛在分佈（μ, σ）→採樣→解碼器；損失 = 重建損失 + KL 散度；生成多樣但略模糊',
+          'GAN：生成器 vs 判別器對抗訓練；生成品質高但訓練不穩定（模式崩塌風險）',
+          '擴散模型（Diffusion）：逐步加雜訊再學習去雜訊；目前圖像生成 SOTA（Stable Diffusion）',
+        ],
+      },
+      {
+        kw: '詞嵌入（Word Embedding）',
+        text: '',
+        sub: [
+          'One-Hot Encoding：稀疏高維向量，無法反映詞義相似性',
+          'Word2Vec（Skip-gram/CBOW）：低維稠密向量，語意相近的詞向量距離近',
+          'BERT Embedding：上下文相關動態向量，同詞不同語境有不同向量',
+        ],
+      },
+      {
+        kw: 'Transformer 架構要點',
+        text: '',
+        sub: [
+          '自注意力（Self-Attention）：每個位置直接關注所有其他位置，解決 RNN 長距離依賴與無法並行問題',
+          '多頭注意力（Multi-Head）：多個注意力頭並行，捕捉不同語意面向',
+          '位置編碼（Positional Encoding）：因注意力無序列概念，需額外注入位置資訊',
+          'BERT：雙向 Encoder，擅長理解（分類/NER/問答）',
+          'GPT：單向 Decoder，擅長生成（文字補全/對話）',
+        ],
+      },
     ],
   },
   {
@@ -84,6 +145,55 @@ const S1_NOTES = [
         kw: '常見 GenAI 工具',
         text: 'ChatGPT（OpenAI）、Gemini（Google）、Claude（Anthropic）、Copilot（Microsoft）、Llama（Meta，開源）',
       },
+      {
+        kw: 'LoRA / PEFT 高效微調',
+        text: '',
+        sub: [
+          'LoRA（Low-Rank Adaptation）：注入低秩矩陣 A×B，可訓練參數減少 99%+',
+          'QLoRA：在量化（4-bit）基礎上進行 LoRA，讓消費級 GPU 可微調 70B 模型',
+          '適用場景：垂直領域客製化（法律、醫療），比全量微調成本低 10~100 倍',
+        ],
+      },
+      {
+        kw: 'LLM 推論參數',
+        text: '',
+        sub: [
+          'Temperature（溫度）：值越低輸出越確定保守，值越高越隨機創意（0=貪婪, 1=正常, >1=隨機）',
+          'Top-p（Nucleus Sampling）：從累積機率達 p 的 Token 中採樣，平衡多樣性與品質',
+          'Max Tokens：限制輸出長度',
+          'Context Window：模型單次可處理的最大 Token 數（輸入+輸出），超過則截斷早期內容',
+        ],
+      },
+      {
+        kw: 'LLM 評估指標',
+        text: '',
+        sub: [
+          'BLEU Score：比對機器生成與參考文字的 n-gram 重疊，常用於翻譯評估',
+          'ROUGE：以召回率為主，常用於摘要評估（ROUGE-N、ROUGE-L）',
+          'Perplexity（困惑度）：衡量語言模型對測試集的預測能力，越低越好',
+          '人工評估（Human Eval）：最可靠但成本高，用於最終品質評估',
+        ],
+      },
+      {
+        kw: 'AI Agent 架構',
+        text: '',
+        sub: [
+          '工具使用（Tool Use）：呼叫搜尋、計算器、資料庫等外部工具',
+          '規劃（Planning）：ReAct（推理+行動交替）、Tree-of-Thought（多路徑推理）',
+          '記憶（Memory）：短期（對話歷史）+ 長期（向量資料庫存儲知識）',
+          'Multi-Agent：多個 AI Agent 協作分工（如 AutoGen、CrewAI）',
+        ],
+      },
+      {
+        kw: 'LLM 安全風險',
+        text: '',
+        sub: [
+          '提示注入（Prompt Injection）：惡意輸入覆蓋系統提示，執行非預期操作',
+          '幻覺（Hallucination）：生成聽起來合理但錯誤的內容；緩解：RAG、事實核查',
+          '越獄（Jailbreak）：透過技巧繞過安全限制',
+          '供應鏈攻擊：公開模型倉庫植入後門（如 Hugging Face 惡意模型）',
+        ],
+      },
     ],
   },
   {
@@ -128,6 +238,41 @@ const S1_NOTES = [
         kw: '資料去識別化',
         text: '匿名化（Anonymization）= 不可逆，GDPR 不適用；假名化（Pseudonymization）= 可透過對照表還原，仍受 GDPR 規範',
       },
+      {
+        kw: 'AI 公平性指標',
+        text: '',
+        sub: [
+          '人口統計均等（Demographic Parity）：不同群體獲得正向預測的比例相同',
+          '均等機會（Equal Opportunity）：不同群體的 Recall（真陽性率）相同',
+          '校準（Calibration）：預測機率準確反映實際發生機率',
+          '公平性不可能定理：多個公平性指標在數學上無法同時完全滿足',
+        ],
+      },
+      {
+        kw: '聯邦學習（Federated Learning）',
+        text: '資料留在本地，只上傳模型梯度/更新至中央伺服器聚合；保護資料隱私，適合醫療、金融等場景',
+      },
+      {
+        kw: 'GDPR 資料主體權利',
+        text: '',
+        sub: [
+          '知情權（Right to Information）：知道資料如何被使用',
+          '存取權（Right of Access）：可要求查看個人資料',
+          '更正權（Right to Rectification）：更正不正確資料',
+          '被遺忘權（Right to Erasure）：特定條件下要求刪除資料',
+          '資料可攜權（Data Portability）：以通用格式取得並移轉個人資料',
+        ],
+      },
+      {
+        kw: 'EU AI Act 重點規定',
+        text: '',
+        sub: [
+          '禁止：即時生物辨識、社會信用評分、操控潛意識的 AI',
+          '高風險 AI 義務：風險管理、資料治理、透明性、人工監督、準確性/健壯性要求',
+          'GPAI（通用 AI）：大型基礎模型有額外透明度與版權義務',
+          '違規罰款：最高 3,500 萬歐元或全球營收 7%',
+        ],
+      },
     ],
   },
   {
@@ -161,6 +306,63 @@ const S1_NOTES = [
           '概念漂移（Concept Drift）：P(Y|X) 關係改變，即相同輸入的正確答案變了',
         ],
       },
+      {
+        kw: 'CRISP-DM 標準流程',
+        text: '業務理解 → 資料理解 → 資料準備（最耗時）→ 建模 → 評估 → 部署；可迭代回溯，是最廣泛使用的資料探勘方法論',
+      },
+      {
+        kw: 'MLflow 核心功能',
+        text: '',
+        sub: [
+          'Tracking：記錄實驗超參數、評估指標、模型文件、程式碼版本',
+          'Projects：可重現的訓練環境打包（conda/docker）',
+          'Models：統一模型格式，支援多框架（sklearn、PyTorch、TensorFlow）',
+          'Registry：模型版本管理（Staging → Production → Archived 生命週期）',
+        ],
+      },
+      {
+        kw: 'DVC（Data Version Control）',
+        text: '基於 Git 的資料集與模型版本控制；.dvc 文件記錄指向實際大型文件（S3/GCS）的指標，確保程式碼與資料版本對應，支援實驗重現',
+      },
+      {
+        kw: 'HITL 與主動學習',
+        text: '',
+        sub: [
+          'HITL（Human-in-the-Loop）：在 AI 流程關鍵節點引入人類標注/審核/決策',
+          '主動學習（Active Learning）：模型挑選最不確定的樣本請人標注，最小化標注成本',
+          'RLHF：收集人類對輸出的偏好排序，訓練獎勵模型引導 LLM',
+        ],
+      },
+      {
+        kw: '模型壓縮技術',
+        text: '',
+        sub: [
+          '量化（Quantization）：float32 → int8/float16，記憶體降低 2~4 倍，推論加速',
+          '剪枝（Pruning）：移除貢獻低的權重或神經元（結構化/非結構化）',
+          '知識蒸餾（Knowledge Distillation）：教師模型的 Soft Label 訓練小型學生模型',
+          '應用場景：Edge AI 部署、行動裝置推論、降低推論成本',
+        ],
+      },
+      {
+        kw: 'AutoML 與超參數最佳化',
+        text: '',
+        sub: [
+          'Grid Search：窮舉所有組合，適合小搜索空間',
+          'Random Search：隨機採樣，比 Grid Search 更有效率',
+          'Bayesian Optimization：根據先前結果建立代理模型，智慧選擇下一個評估點（Hyperopt、Optuna）',
+          'NAS（Neural Architecture Search）：自動搜索最佳網路架構',
+        ],
+      },
+      {
+        kw: 'AI 導入決策框架',
+        text: '',
+        sub: [
+          'Build（自建）：核心競爭力/高客製化需求，成本高時程長',
+          'Buy（採購 SaaS）：通用功能，快速上線，資料主控權低',
+          'Open Source：彈性高、無授權費，需自行部署維護',
+          'PoC（概念驗證）：小規模實驗驗證可行性，通常 2~4 週，成功後再全面導入',
+        ],
+      },
     ],
   },
   {
@@ -189,6 +391,48 @@ const S1_NOTES = [
           '協同過濾（CF）：根據相似用戶/商品的歷史行為推薦',
           '內容過濾（Content-based）：根據商品本身特徵比對用戶偏好',
           '混合式：結合兩者優點',
+        ],
+      },
+      {
+        kw: 'Edge AI（邊緣 AI）',
+        text: '',
+        sub: [
+          '定義：在本地裝置（手機、IoT、嵌入式）執行 AI 推論，不依賴雲端',
+          '優點：低延遲（毫秒級）、離線可用、原始資料不上傳（隱私保護）、降低頻寬成本',
+          '挑戰：算力/記憶體受限，需搭配量化、剪枝、蒸餾等模型壓縮技術',
+          '應用：智慧監控攝影機、自駕車感知、工廠品質檢測、穿戴裝置健康監測',
+        ],
+      },
+      {
+        kw: '電腦視覺詳細應用',
+        text: '',
+        sub: [
+          '影像分類（Image Classification）：ResNet、VGG → 判斷圖像屬於哪個類別',
+          '物件偵測（Object Detection）：YOLO、Faster R-CNN → 定位並分類多個物件（Bounding Box）',
+          '語意分割（Semantic Segmentation）：FCN → 每個像素分類，不區分個體',
+          '實例分割（Instance Segmentation）：Mask R-CNN → 同類物體各自獨立遮罩',
+          'OCR（光學字元辨識）：文件數位化、車牌辨識、票據識別',
+        ],
+      },
+      {
+        kw: 'NLP 詳細應用',
+        text: '',
+        sub: [
+          '命名實體識別（NER）：從文字中識別人名/地名/組織/日期等實體',
+          '情感分析（Sentiment Analysis）：判斷文字正/負/中性情感',
+          '機器翻譯（MT）：Seq2Seq + Attention → Transformer（Google Translate）',
+          '文件摘要（Summarization）：抽取式（選重要句子）vs 生成式（重新改寫）',
+          '問答系統（QA）：開放域 QA（RAG）vs 封閉域 QA（文件理解）',
+        ],
+      },
+      {
+        kw: '智慧醫療 AI',
+        text: '',
+        sub: [
+          '醫學影像診斷：X 光、CT、MRI、皮膚鏡影像 → CNN 輔助診斷（需 Grad-CAM 解釋）',
+          '藥物研發：分子生成（GAN/Diffusion）、蛋白質結構預測（AlphaFold）',
+          '電子病歷（EHR）分析：NLP 提取臨床資訊，預測再入院風險',
+          '注意事項：FDA/TFDA 審核、臨床試驗驗證、醫師最終決策（HITL）',
         ],
       },
     ],
@@ -224,6 +468,41 @@ const S2_NOTES = [
       {
         kw: '批次處理 vs 串流處理',
         text: '批次（Batch）：定期大量處理歷史資料（如每日報表）；串流（Streaming）：即時連續處理（如詐欺偵測）',
+      },
+      {
+        kw: 'ETL vs ELT',
+        text: '',
+        sub: [
+          'ETL（Extract-Transform-Load）：先轉換後載入，適合傳統資料倉儲，規則固定',
+          'ELT（Extract-Load-Transform）：先載入原始資料至雲端倉儲，再利用倉儲算力轉換，更彈性',
+          'ELT 是現代資料棧（dbt + BigQuery/Snowflake）的主流模式',
+        ],
+      },
+      {
+        kw: '資料格式比較',
+        text: '',
+        sub: [
+          'CSV/JSON：人類可讀，適合小量資料交換，無法壓縮',
+          'Parquet：列式儲存，壓縮率高，適合 OLAP 分析查詢（Spark/BigQuery 首選）',
+          'Avro：行式二進位格式，支援 Schema 演進，適合 Kafka 訊息序列化',
+          'ORC：Hive 最佳化格式，列式壓縮率極高，Hive/Presto 常用',
+        ],
+      },
+      {
+        kw: '資料品質六維度',
+        text: '',
+        sub: [
+          '完整性（Completeness）：無缺失值/NULL',
+          '準確性（Accuracy）：資料正確無誤',
+          '一致性（Consistency）：跨系統相同實體資料一致',
+          '時效性（Timeliness）：資料是否最新',
+          '唯一性（Uniqueness）：無重複記錄',
+          '有效性（Validity）：符合業務規則與格式規範',
+        ],
+      },
+      {
+        kw: '資料血緣（Data Lineage）',
+        text: '記錄資料從原始來源→ETL轉換→最終報表的完整流向；用於錯誤追溯、GDPR 合規（被遺忘權執行）、影響分析',
       },
     ],
   },
@@ -263,6 +542,37 @@ const S2_NOTES = [
         kw: 'ZooKeeper',
         text: '分散式協調服務：設定管理、分散式鎖、Leader 選舉（Hadoop HA、Kafka 依賴它）',
       },
+      {
+        kw: 'Hadoop HA 架構',
+        text: 'Active/Standby 兩個 NameNode，透過 ZooKeeper 監控，Active 故障時自動 Failover；JournalNode 同步 Editlog，解決 NameNode 單點故障（SPOF）問題',
+      },
+      {
+        kw: 'Hive vs HBase 選擇',
+        text: '',
+        sub: [
+          'Hive：適合批次 SQL 分析（每日報表、歷史資料分析），延遲秒~分鐘級',
+          'HBase：適合低延遲隨機讀寫（用戶行為記錄、即時查詢），延遲毫秒級',
+          '常見組合：Kafka 收集 → HBase 即時查詢 + Hive 批次分析',
+        ],
+      },
+      {
+        kw: 'Apache Sqoop & Flume',
+        text: '',
+        sub: [
+          'Sqoop：RDBMS ↔ HDFS/Hive 批次資料遷移（sqoop import/export），底層用 MapReduce',
+          'Flume：分散式日誌收集框架，Source→Channel→Sink 管線，即時擷取 Web 伺服器日誌至 HDFS',
+        ],
+      },
+      {
+        kw: '資料倉儲 Schema 設計',
+        text: '',
+        sub: [
+          '星型綱要（Star Schema）：事實表直連非正規化維度表，JOIN 少、查詢快，有資料冗餘',
+          '雪花綱要（Snowflake Schema）：維度表進一步正規化，節省空間但 JOIN 多、查詢慢',
+          '事實表（Fact Table）：儲存業務事件度量值（銷售金額、點擊次數）',
+          '維度表（Dimension Table）：儲存描述性屬性（時間、地區、產品類別）',
+        ],
+      },
     ],
   },
   {
@@ -294,6 +604,25 @@ const S2_NOTES = [
       {
         kw: 'DAG（有向無環圖）',
         text: 'Spark 將所有 Transformation 建構成 DAG，分析後切割為 Stage 最佳化執行，避免冗餘計算',
+      },
+      {
+        kw: 'Spark 效能最佳化',
+        text: '',
+        sub: [
+          'Cache/Persist：將中間結果快取記憶體，避免迭代計算重複讀取',
+          'Broadcast Join：小表廣播至各節點，大表本地 JOIN，避免 Shuffle',
+          '分區調整：repartition（增加分區，重新 Shuffle）vs coalesce（減少分區，避免 Shuffle）',
+          'Catalyst 最佳化器：自動執行謂詞下推（Predicate Pushdown）、列裁剪（Column Pruning）',
+          '資料傾斜（Skew）：加鹽（Salting）技術分散熱點 Key',
+        ],
+      },
+      {
+        kw: 'Spark Window Functions',
+        text: '在視窗（分區+排序）內計算聚合而不合併行；常用：ROW_NUMBER()、RANK()、LAG/LEAD、滾動平均；適合排行榜、時序分析、用戶行為序列分析',
+      },
+      {
+        kw: 'Structured Streaming',
+        text: '以「無限增長的 DataFrame」處理串流資料；Event Time 支援、Watermark 處理遲到事件；Output Modes：Append（只輸出新行）/ Update / Complete',
       },
     ],
   },
@@ -328,6 +657,35 @@ const S2_NOTES = [
         kw: 'Apache Flink',
         text: '低延遲有狀態串流框架，支援 Exactly-Once 語意；可同時做批次和串流（Unified Batch+Stream）',
       },
+      {
+        kw: 'Kafka 架構詳解',
+        text: '',
+        sub: [
+          'Topic：訊息的邏輯分類；Partition：Topic 的物理分割，是平行度單位',
+          'Leader/Follower Replica：每個 Partition 有一個 Leader 負責讀寫，Follower 同步備份',
+          'ISR（In-Sync Replicas）：與 Leader 同步的副本集合，資料寫入 ISR 才算提交',
+          'Retention Policy：按時間（預設 7 天）或按大小保留訊息，支援歷史重播',
+          'Offset 管理：Consumer 提交 Offset 至 __consumer_offsets Topic，重啟後繼續消費',
+        ],
+      },
+      {
+        kw: '串流處理語意保證',
+        text: '',
+        sub: [
+          'At-Most-Once（最多一次）：可能遺失，不重試，延遲最低',
+          'At-Least-Once（至少一次）：可能重複，適合可冪等操作',
+          'Exactly-Once（恰好一次）：最強保證，Flink Checkpoint + Kafka Transactions 實現，成本最高',
+        ],
+      },
+      {
+        kw: '串流視窗類型',
+        text: '',
+        sub: [
+          '滾動視窗（Tumbling Window）：固定大小、不重疊，每個事件只屬一個視窗（如每 5 分鐘統計）',
+          '滑動視窗（Sliding Window）：固定大小、可重疊，按步長移動（如每分鐘計算過去 5 分鐘）',
+          '會話視窗（Session Window）：按活動間隔動態調整，閒置超過閾值則關閉視窗',
+        ],
+      },
     ],
   },
   {
@@ -357,6 +715,35 @@ const S2_NOTES = [
       {
         kw: '分片（Sharding）vs 副本（Replication）',
         text: '分片：資料水平切割至不同節點，提升寫入量與儲存容量；副本：同一份資料複製多份，提升讀取效能與容錯',
+      },
+      {
+        kw: 'NoSQL 四大類型比較',
+        text: '',
+        sub: [
+          'Key-Value（Redis、DynamoDB）：最簡單，快取/Session/排行榜，O(1) 讀寫',
+          'Document（MongoDB、CouchDB）：JSON/BSON 文件，靈活 Schema，適合內容管理、用戶檔案',
+          'Column-Family（Cassandra、HBase）：寬列，海量時序/IoT 資料，高寫入吞吐',
+          'Graph（Neo4j、Amazon Neptune）：節點+邊，社群網路/知識圖譜/詐欺偵測',
+        ],
+      },
+      {
+        kw: 'ACID vs BASE 比較',
+        text: '',
+        sub: [
+          'ACID（傳統 RDBMS）：原子性/一致性/隔離性/持久性，強一致性，適合金融交易',
+          'BASE（NoSQL）：基本可用/軟狀態/最終一致性，高可用優先，適合大規模分散式應用',
+          '現代趨勢：NewSQL（如 Google Spanner、TiDB）嘗試在分散式環境實現 ACID',
+        ],
+      },
+      {
+        kw: '現代開放表格格式',
+        text: '',
+        sub: [
+          'Delta Lake：Parquet + 事務日誌，支援 ACID/Time Travel/Upsert，Databricks 主推',
+          'Apache Iceberg：開放標準，Schema Evolution/Hidden Partitioning，Netflix/Apple 廣泛使用',
+          'Apache Hudi：Upsert 效能最佳化，適合近即時 CDC（Change Data Capture）場景',
+          '三者統稱 Lakehouse 格式，讓資料湖具備資料倉儲的可靠性',
+        ],
       },
     ],
   },
@@ -407,6 +794,50 @@ const S2_NOTES = [
         kw: '缺失值處理',
         text: '刪除（少量缺失）、均值/中位數填補（連續變數）、眾數填補（類別變數）、插補法（時序）',
       },
+      {
+        kw: '集成學習（Ensemble Learning）',
+        text: '',
+        sub: [
+          'Bagging（如 Random Forest）：並行訓練獨立模型，Bootstrap 取樣，取投票/平均，降低 Variance',
+          'Boosting（如 XGBoost、LightGBM）：串行訓練，每棵樹修正前一棵殘差，降低 Bias',
+          'XGBoost 改進：L1/L2 正則化、二階泰勒展開、稀疏感知、並行分裂點計算',
+          'Stacking：以多個模型預測值作為特徵訓練最終 Meta-Learner',
+        ],
+      },
+      {
+        kw: 'DBSCAN 密度聚類',
+        text: 'ε（鄰域半徑）+ MinPts（最小點數）定義核心點/邊界點/雜訊點；優點：無需指定 K、發現任意形狀群集、自動識別異常值；缺點：對參數敏感、高維度效果差',
+      },
+      {
+        kw: '迴歸評估指標',
+        text: '',
+        sub: [
+          'MAE（平均絕對誤差）：線性懲罰，對異常值穩健，單位與原始資料相同',
+          'MSE（均方誤差）：平方懲罰，對異常值敏感，適合梯度下降最佳化',
+          'RMSE（均方根誤差）：√MSE，單位與原始資料相同，兼顧最佳化與可解釋性',
+          'R²（決定係數）：1 = 完美擬合，0 = 等同均值預測，<0 = 模型比均值更差',
+        ],
+      },
+      {
+        kw: '時序分解與預測',
+        text: '',
+        sub: [
+          '時序分解四成分：趨勢（Trend）+ 季節性（Seasonality）+ 循環（Cycle）+ 殘差（Residual）',
+          'ARIMA：自迴歸整合移動平均，傳統統計預測方法，需定態（Stationary）資料',
+          'Prophet：Facebook 開源，自動處理季節性和假期效應，適合業務場景',
+          'LSTM/Transformer：深度學習方法，能捕捉複雜非線性模式',
+        ],
+      },
+      {
+        kw: '異常偵測方法',
+        text: '',
+        sub: [
+          'IQR 法：Q1−1.5×IQR ~ Q3+1.5×IQR 範圍外視為異常，對非常態分佈穩健',
+          'Z-score 法：|z| > 3 視為異常，適合常態分佈資料',
+          'Isolation Forest：隨機分割孤立點，異常值更容易被隔離（路徑更短）',
+          'Autoencoder：重建誤差大的樣本視為異常',
+        ],
+      },
     ],
   },
   {
@@ -455,6 +886,39 @@ const S2_NOTES = [
       {
         kw: '資料安全',
         text: '傳輸加密（TLS）、靜態加密（AES-256）、欄位級加密、最小權限原則（PoLP）、稽核日誌',
+      },
+      {
+        kw: '向量資料庫（Vector Database）',
+        text: '高效儲存並搜尋高維 Embedding 向量，使用 HNSW/IVF 等 ANN 索引；RAG 架構的核心組件；代表：Pinecone、Weaviate、Milvus、Chroma、pgvector（PostgreSQL 擴展）',
+      },
+      {
+        kw: 'Apache Airflow',
+        text: '以 Python 定義 DAG 排程和管理資料管線；支援重試/監控/各種 Operator（Spark/SQL/HTTP）；是現代資料工程最廣泛使用的工作流管理工具',
+      },
+      {
+        kw: '特徵庫（Feature Store）',
+        text: '',
+        sub: [
+          '解決訓練-服務偏差（Training-Serving Skew）：確保線上推論與訓練使用相同特徵計算邏輯',
+          '離線特徵：批次計算，用於模型訓練（Point-in-time Correct 防止資料洩漏）',
+          '線上特徵：低延遲查詢，用於即時推論（通常存於 Redis/DynamoDB）',
+          '代表工具：Feast（開源）、Tecton、Databricks Feature Store',
+        ],
+      },
+      {
+        kw: '資料目錄（Data Catalog）',
+        text: '集中管理資料資產的元資料（Schema、業務說明、擁有者、血緣、使用頻率）；讓工程師和分析師快速發現可信資料；代表工具：Apache Atlas、Alation、Collibra、AWS Glue Data Catalog',
+      },
+      {
+        kw: '現代資料棧（Modern Data Stack）',
+        text: '',
+        sub: [
+          '資料擷取：Fivetran / Airbyte（Connector-based ELT）',
+          '資料倉儲：BigQuery / Snowflake / Redshift（雲端 OLAP）',
+          '資料轉換：dbt（SQL-based 資料轉換，版本控制）',
+          '資料目錄：Alation / Collibra',
+          '視覺化：Tableau / Looker / Power BI',
+        ],
       },
     ],
   },
