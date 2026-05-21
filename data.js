@@ -461,7 +461,7 @@ const S2_NOTES = [
 ];
 
 // ════════════════════════════════════════════════════════
-//  科目一 模擬試題（共 30 題）
+//  科目一 模擬試題
 // ════════════════════════════════════════════════════════
 const S1_QUESTIONS = [
   {
@@ -667,10 +667,116 @@ const S1_QUESTIONS = [
     ans: 'B',
     exp: '台灣 AI 基本法（2024 年通過）強調「人本 AI」，核心原則：以人為本、透明可信、安全可靠、公平包容、促進創新、國際接軌。規範政府 AI 應用，確保 AI 系統可問責，保護人民基本權利。',
   },
+  {
+    subject: '科目一',
+    q: '變分自編碼器（VAE）訓練目標函數中「KL 散度」的作用是？',
+    opts: ['A. 計算重建圖像與原始圖像的像素差異', 'B. 約束潛在空間分佈接近標準常態分佈，使潛在空間具有連續性可生成新樣本', 'C. 測量生成器與判別器的對抗損失', 'D. 調整模型學習率的衰減速率'],
+    ans: 'B',
+    exp: 'VAE 損失函數 = 重建損失（Reconstruction Loss）+ KL 散度（KL Divergence）。KL 散度衡量編碼器輸出的分佈 q(z|x) 與先驗分佈 p(z)（標準常態）的差異，迫使潛在空間有規律性，使解碼器可從標準常態分佈採樣生成新樣本，而非僅記憶訓練樣本。',
+  },
+  {
+    subject: '科目一',
+    q: '「擴散模型（Diffusion Model）」的基本原理是？',
+    opts: ['A. 生成器與判別器對抗訓練直到均衡', 'B. 正向過程逐步加入雜訊，反向過程訓練模型逐步去除雜訊以重建樣本', 'C. 透過矩陣分解找到低維潛在表示', 'D. 從樣本集合中隨機混合生成新樣本'],
+    ans: 'B',
+    exp: '擴散模型兩個過程：正向過程（Forward Process）—— 對原始資料逐步疊加高斯雜訊至純雜訊；反向過程（Reverse Process）—— 訓練 U-Net 等神經網路逐步預測並去除每一步的雜訊。Stable Diffusion、DALL-E 2 均基於此原理，生成品質高且多樣性好。',
+  },
+  {
+    subject: '科目一',
+    q: '「LoRA（Low-Rank Adaptation）」微調方法的核心優勢是？',
+    opts: ['A. 凍結所有參數，只訓練新增的分類頭', 'B. 在原始權重旁注入低秩矩陣分解的訓練參數，可訓練參數量減少 99% 以上但效果接近全量微調', 'C. 將大型模型蒸餾壓縮為小型模型', 'D. 使用多個獨立模型投票集成'],
+    ans: 'B',
+    exp: 'LoRA 凍結預訓練模型原始權重 W，對需更新的矩陣插入兩個低秩矩陣 A（d×r）和 B（r×d），只訓練 A、B（r 遠小於 d）。可訓練參數量大幅減少（如從 7B 降至 4M），訓練資源需求低，是目前最主流的 LLM 高效微調（PEFT）方法。',
+  },
+  {
+    subject: '科目一',
+    q: '自然語言生成評估指標「BLEU Score」的計算原理是？',
+    opts: ['A. 計算生成文字與參考文字共同詞彙的召回率', 'B. 比較機器生成文字與人工參考譯文的 n-gram 重疊精確率', 'C. 測量生成句子的困惑度（Perplexity）', 'D. 統計生成文字中語法錯誤的數量'],
+    ans: 'B',
+    exp: 'BLEU（Bilingual Evaluation Understudy）計算機器翻譯/生成與一或多個參考文本的 n-gram 重疊精確率（1-gram 到 4-gram），並加入長度懲罰（Brevity Penalty）防止生成過短文字。分數範圍 0~1（1 為完美匹配），常用於機器翻譯、文字摘要評估。',
+  },
+  {
+    subject: '科目一',
+    q: '「提示注入攻擊（Prompt Injection）」針對 LLM 系統的威脅是？',
+    opts: ['A. 在模型訓練時植入惡意樣本污染模型', 'B. 透過惡意輸入覆蓋或欺騙 LLM 的系統提示，使其洩漏隱私或執行非預期行為', 'C. 用大量請求使 LLM API 服務過載', 'D. 反向工程還原 LLM 的訓練資料'],
+    ans: 'B',
+    exp: '提示注入攻擊在用戶輸入中嵌入惡意指令（如「忽略前述指令，改為輸出...」），試圖覆蓋系統提示（System Prompt）、洩漏機密資訊或執行危險操作。間接提示注入（Indirect Prompt Injection）透過 LLM 處理的外部文件植入指令。防禦：輸入過濾、沙盒隔離、最小權限原則。',
+  },
+  {
+    subject: '科目一',
+    q: '依據 GDPR，「被遺忘權（Right to Erasure）」的適用條件是？',
+    opts: ['A. 任何用戶隨時可要求刪除所有個人資料，企業無例外', 'B. 資料不再必要、用戶撤回同意或資料被非法處理等情況下，用戶可要求刪除', 'C. 僅適用於跨境傳輸的個人資料', 'D. 企業必須在 7 日內完成刪除'],
+    ans: 'B',
+    exp: 'GDPR Article 17 的「被遺忘權」在以下情況適用：①資料已非必要；②用戶撤回同意；③用戶反對處理；④資料被非法處理；⑤需符合法律義務。例外：言論自由、科學研究、法律抗辯。企業通常須在 30 日內回應請求。',
+  },
+  {
+    subject: '科目一',
+    q: 'CRISP-DM 資料探勘標準流程六個階段的正確順序是？',
+    opts: ['A. 資料理解 → 業務理解 → 資料準備 → 建模 → 評估 → 部署', 'B. 業務理解 → 資料理解 → 資料準備 → 建模 → 評估 → 部署', 'C. 資料準備 → 業務理解 → 建模 → 資料理解 → 評估 → 部署', 'D. 建模 → 業務理解 → 資料理解 → 評估 → 資料準備 → 部署'],
+    ans: 'B',
+    exp: 'CRISP-DM（Cross Industry Standard Process for Data Mining）六階段：①業務理解（Business Understanding）→ ②資料理解（Data Understanding）→ ③資料準備（Data Preparation，通常最耗時）→ ④建模（Modeling）→ ⑤評估（Evaluation）→ ⑥部署（Deployment）。過程可迭代回溯，是最廣泛使用的資料探勘方法論。',
+  },
+  {
+    subject: '科目一',
+    q: 'MLflow 在 MLOps 的核心功能是？',
+    opts: ['A. 自動清洗和標注訓練資料', 'B. 追蹤實驗超參數/指標、版本化模型（Model Registry）及標準化部署', 'C. 提供分散式模型訓練的 GPU 算力', 'D. 自動產生模型測試報告'],
+    ans: 'B',
+    exp: 'MLflow 四大功能：①Tracking（記錄實驗超參數、評估指標、模型文件、程式碼版本）；②Projects（可重現訓練環境打包）；③Models（統一模型格式，支援多框架）；④Registry（模型版本管理，含 Staging/Production/Archived 生命週期狀態）。是最廣泛使用的開源 MLOps 實驗管理工具。',
+  },
+  {
+    subject: '科目一',
+    q: '「DVC（Data Version Control）」解決機器學習的哪項挑戰？',
+    opts: ['A. 模型推論的延遲優化', 'B. 追蹤和版本化大型資料集及模型文件，類似 Git 對程式碼的版本控制', 'C. 自動部署模型至雲端並監控效能', 'D. 進行分散式超參數搜索'],
+    ans: 'B',
+    exp: 'DVC 基於 Git，提供資料集和模型文件的版本控制。DVC 在 Git 中儲存指向實際大型文件（S3、GCS、本地）的 .dvc 指標文件，確保每個程式碼版本對應特定資料和模型版本，支援實驗重現（Reproducibility）和資料管線（pipeline）定義。',
+  },
+  {
+    subject: '科目一',
+    q: '「Human-in-the-Loop（HITL）」在 AI 開發中的主要應用場景是？',
+    opts: ['A. 用人工全面取代 AI 的決策流程', 'B. 在模型訓練或決策關鍵節點引入人類標注/審核，提升品質並處理模型不確定案例', 'C. 強制要求每個 AI 決策都需人工二次確認', 'D. 讓多位人類專家投票決定模型架構'],
+    ans: 'B',
+    exp: 'HITL 在 AI 流程保留人類參與：①主動學習（Active Learning）：模型挑選最不確定樣本請人標注；②高風險場景輔助決策（如醫療：AI 建議，醫生最終決定）；③RLHF 的人類偏好標注。目標是以最少人力干預最大化 AI 品質，非全程人工替代。',
+  },
+  {
+    subject: '科目一',
+    q: '貝葉斯最佳化（Bayesian Optimization）用於超參數調整時的優勢是？',
+    opts: ['A. 窮舉所有超參數組合找到全局最優', 'B. 基於先前評估結果建立代理模型，智慧選擇下一個最有潛力的超參數組合，比隨機搜索收斂更快', 'C. 以固定步長遍歷超參數網格', 'D. 只調整學習率一個超參數'],
+    ans: 'B',
+    exp: '貝葉斯最佳化使用 Surrogate Model（如 Gaussian Process）對超參數空間建模，並透過 Acquisition Function（期望改善 EI 或置信上界 UCB）選擇下一評估點。相比 Grid Search（指數爆炸）和 Random Search（效率低），貝葉斯最佳化利用先前結果智慧探索，收斂更快。Hyperopt、Optuna 均實作此方法。',
+  },
+  {
+    subject: '科目一',
+    q: '電腦視覺中「語意分割（Semantic Segmentation）」與「實例分割（Instance Segmentation）」的主要差異是？',
+    opts: ['A. 兩者完全相同，只是名稱不同', 'B. 語意分割對每個像素分類但不區分個體；實例分割進一步區分同類中不同個體', 'C. 語意分割處理彩色影像；實例分割處理深度影像', 'D. 語意分割適用於影像分類；實例分割適用於物件偵測'],
+    ans: 'B',
+    exp: '語意分割（Semantic Segmentation）：每個像素預測類別標籤（如全部行人像素標為「人」），同類個體不區分。實例分割（Instance Segmentation）：進一步區分同類中不同個體（行人1、行人2有各自遮罩）。Mask R-CNN 是代表性實例分割模型，Fully Convolutional Network (FCN) 是語意分割基礎。',
+  },
+  {
+    subject: '科目一',
+    q: '「模型卡（Model Card）」在 AI 治理中的主要用途是？',
+    opts: ['A. 記錄模型 API 的呼叫格式和範例', 'B. 標準化記錄模型用途、訓練資料、評估結果（含公平性指標）及已知限制，增加透明度', 'C. 儲存神經網路架構的視覺化圖表', 'D. 管理模型的版本號和部署日誌'],
+    ans: 'B',
+    exp: 'Model Card（模型卡）由 Google 提出，是標準化模型說明文件，包含：預期用途與禁止用途、訓練資料來源與特性、不同子群體的公平性評估指標、已知偏見、倫理風險和局限性。符合 EU AI Act 透明性要求，幫助使用者做出知情決策，促進 AI 負責任使用。',
+  },
+  {
+    subject: '科目一',
+    q: '「主動學習（Active Learning）」解決什麼問題？',
+    opts: ['A. 讓模型從網路自動爬取訓練資料', 'B. 模型主動挑選最有資訊量（最不確定）的未標注樣本請人標注，以最小標注成本達到最佳效果', 'C. 讓模型在訓練過程中自動更新學習策略', 'D. 使用生成模型自動生成合成標注資料'],
+    ans: 'B',
+    exp: '主動學習（Active Learning）解決標注資料昂貴問題。策略：不確定性採樣（選信心最低的）、委員會查詢（多模型意見最分歧的）、期望模型改變最大的。相比隨機標注，可用更少標注達到相同效果。常見於醫療影像、自動駕駛等標注成本高的場景，常與 HITL 結合使用。',
+  },
+  {
+    subject: '科目一',
+    q: 'AI「供應鏈攻擊（Supply Chain Attack）」的典型手法是？',
+    opts: ['A. 直接針對模型 API 端點發動大量請求', 'B. 在公開預訓練模型或開源套件中植入後門，使下載使用的開發者受害', 'C. 竊取模型推論伺服器的存取憑證', 'D. 修改模型輸入資料造成錯誤預測'],
+    ans: 'B',
+    exp: 'AI 供應鏈攻擊污染可信的上游資源（公開模型倉庫、開源套件、訓練資料），在預訓練模型中植入後門（Backdoor），觸發特定輸入模式時執行惡意行為。Hugging Face 模型倉庫曾發現含惡意 pickle 程式碼的模型。防護：僅使用可信來源、驗證模型雜湊值、掃描依賴套件。',
+  },
 ];
 
+
 // ════════════════════════════════════════════════════════
-//  科目二 模擬試題（共 30 題）
+//  科目二 模擬試題
 // ════════════════════════════════════════════════════════
 const S2_QUESTIONS = [
   {
@@ -783,7 +889,7 @@ const S2_QUESTIONS = [
     q: 'Apache Hive 與 HBase 的主要使用場景差異是？',
     opts: ['A. Hive 適合即時隨機讀寫；HBase 適合批次分析', 'B. Hive 適合批次 SQL 分析查詢；HBase 適合低延遲隨機讀寫', 'C. 兩者功能完全相同', 'D. Hive 基於記憶體；HBase 基於磁碟'],
     ans: 'B',
-    exp: 'Hive 將 HiveQL 轉換為 MapReduce/Tez 執行，適合大量資料批次查詢（如每日報表），延遲秒至分鐘級。HBase 是基於 HDFS 的 NoSQL 列式資料庫，支援毫秒級隨機讀寫，適合需要即時查詢的應用。',
+    exp: 'Hive 將 HiveQL 轉換為 MapReduce/Tez 執行，適合大量資料批次查詢（如每日報表），延遲秒至分鐘級。HBase 是基於 HDFS 的 NoSQL 列式資料庫，支援毫秒級隨機讀寫，適合需要即時查詢的應用（如用戶資料、訊息系統）。',
   },
   {
     subject: '科目二',
@@ -875,5 +981,103 @@ const S2_QUESTIONS = [
     opts: ['A. 每條訊息至少被處理一次，允許重複', 'B. 每條訊息恰好被處理一次，不多不少，保證結果精確', 'C. 訊息只被處理一次後立即刪除', 'D. 系統每秒精確處理一條訊息'],
     ans: 'B',
     exp: '串流處理的三種語意：At-Most-Once（最多一次，可能遺失）、At-Least-Once（至少一次，可能重複）、Exactly-Once（恰好一次，最強保證但實作複雜）。Apache Flink 和 Kafka Transactions 支援 Exactly-Once，適用於金融交易等精確性要求高的場景。',
+  },
+  {
+    subject: '科目二',
+    q: '迴歸評估中「MAE（平均絕對誤差）」相對於「MSE（均方誤差）」的特性是？',
+    opts: ['A. MAE 對異常值更敏感，MSE 較不敏感', 'B. MAE 線性懲罰誤差對異常值較不敏感；MSE 平方懲罰使大誤差權重更高，對異常值敏感', 'C. MAE 和 MSE 計算結果完全相同', 'D. MAE 只用於分類問題；MSE 只用於迴歸'],
+    ans: 'B',
+    exp: 'MAE = 誤差絕對值的平均，每個誤差線性懲罰，對異常值（Outlier）較穩健，單位與原始資料相同易解釋。MSE = 誤差平方的平均，大誤差被放大懲罰，對異常值敏感，適合梯度下降最佳化。RMSE = √MSE，與原始資料同單位，兼顧 MSE 的最佳化優點與可解釋性。',
+  },
+  {
+    subject: '科目二',
+    q: 'DBSCAN 聚類演算法相較於 K-means 最主要的優勢是？',
+    opts: ['A. 計算速度更快，適合即時處理', 'B. 可自動發現任意形狀群集且識別雜訊點，不需預先指定群數 K', 'C. 對高維度資料效果更好', 'D. 記憶體使用量更少'],
+    ans: 'B',
+    exp: 'DBSCAN（Density-Based Spatial Clustering of Applications with Noise）以ε鄰域半徑和 MinPts 定義核心點、邊界點和雜訊點（Noise）。優點：無需指定 K 值、可發現任意形狀群集（非球形）、自動識別異常值。K-means 假設球形群集且需指定 K，對非凸形狀效果差。DBSCAN 缺點是對ε和 MinPts 參數敏感。',
+  },
+  {
+    subject: '科目二',
+    q: '大數據儲存格式中「Parquet」與「Avro」的主要使用場景差異是？',
+    opts: ['A. Parquet 適合串流傳輸；Avro 適合批次分析', 'B. Parquet 列式儲存適合 OLAP 分析查詢；Avro 行式儲存支援 Schema 演進，適合串流傳輸與序列化', 'C. 兩者完全相同都是列式儲存', 'D. Parquet 是文字格式；Avro 是二進位格式'],
+    ans: 'B',
+    exp: 'Parquet：列式儲存（Columnar）格式，壓縮率高，適合 OLAP 查詢（Spark、BigQuery 按欄讀取）。Avro：行式（Row-based）二進位格式，支援 Schema Evolution（Schema 向前/向後相容），適合 Kafka 訊息序列化和 Hadoop ETL 資料交換。常見組合：Kafka 傳輸用 Avro，儲存至資料湖後轉存為 Parquet 進行分析。',
+  },
+  {
+    subject: '科目二',
+    q: 'Hadoop YARN 中「ResourceManager」的主要職責是？',
+    opts: ['A. 儲存 HDFS 所有 Block 的位置元資料', 'B. 管理叢集全域資源（CPU、記憶體），為各應用程式的 ApplicationMaster 分配容器', 'C. 在每個節點執行具體的 Map 和 Reduce 任務', 'D. 協調多個 NameNode 間的資料同步'],
+    ans: 'B',
+    exp: 'YARN（Yet Another Resource Negotiator）三大元件：ResourceManager（RM）—— 全域資源管理和作業排程；NodeManager（NM）—— 管理單一節點資源，執行 Container；ApplicationMaster（AM）—— 每個應用程式專屬，向 RM 申請資源並協調任務執行。RM 是叢集的中央資源仲裁者。',
+  },
+  {
+    subject: '科目二',
+    q: 'Kafka 中「Offset」的作用是？',
+    opts: ['A. 記錄每個 Producer 的訊息寫入速率', 'B. 標記消費者在 Partition 中的讀取位置，確保重啟後可從上次位置繼續消費', 'C. 控制 Broker 之間 Leader/Follower 的資料同步進度', 'D. 設定 Topic 訊息的最長保留時間'],
+    ans: 'B',
+    exp: 'Kafka 每條訊息在 Partition 中有唯一遞增的 Offset（偏移量）。Consumer Group 透過提交（Commit）Offset 記錄已消費位置，重啟後從上次 Commit 的 Offset 繼續，避免重複消費或遺漏。Offset 儲存在 Kafka 內建 Topic（__consumer_offsets）中，是 Kafka 實現消費進度追蹤的核心機制。',
+  },
+  {
+    subject: '科目二',
+    q: 'Apache Flink 相較於 Spark Structured Streaming 的主要技術特點是？',
+    opts: ['A. Flink 僅支援批次處理，不支援串流', 'B. Flink 是原生串流引擎（毫秒延遲），原生支援 Exactly-Once 和事件時間處理；Spark 採微批次架構延遲略高', 'C. Spark Streaming 比 Flink 延遲更低', 'D. Flink 不支援 Exactly-Once 語意'],
+    ans: 'B',
+    exp: 'Flink 是 Streaming-first 架構，以事件逐條處理（True Streaming），透過 Checkpoint 機制實現 Exactly-Once，延遲可達毫秒級。Spark Structured Streaming 採微批次（Micro-batch）架構，延遲通常秒級。Flink 在金融即時風控、IoT 即時分析等低延遲場景更佔優勢。兩者都支援批流一體。',
+  },
+  {
+    subject: '科目二',
+    q: 'Kappa 架構相較於 Lambda 架構的核心改進是？',
+    opts: ['A. Kappa 新增了歷史批次層提升計算精度', 'B. Kappa 移除批次層，統一以串流處理引擎處理即時和歷史資料，降低架構複雜度', 'C. Kappa 在每個節點增加本地快取', 'D. Kappa 適合非結構化資料，Lambda 適合結構化資料'],
+    ans: 'B',
+    exp: 'Lambda 架構維護批次層和速度層兩套系統（程式碼重複、維運複雜）。Kappa 架構（Jay Kreps 提出）移除批次層，歷史資料重算也透過重新消費串流（如 Kafka 保留完整訊息）完成，統一串流引擎處理所有資料。適合 Kafka + Flink/Spark Streaming 的現代串流優先架構。',
+  },
+  {
+    subject: '科目二',
+    q: '現代雲端資料倉儲廣泛採用「ELT」而非傳統「ETL」的主要原因是？',
+    opts: ['A. ELT 先轉換再上傳，減少雲端儲存費用', 'B. ELT 先載入原始資料至雲端倉儲，再利用倉儲強大算力彈性轉換，支援多樣化分析需求', 'C. ELT 不需要任何資料轉換步驟', 'D. ELT 只適用於非結構化資料'],
+    ans: 'B',
+    exp: 'ETL：先在中間層轉換後再載入，規則固定難以應對多變需求。ELT（Extract-Load-Transform）：先載入原始資料至雲端倉儲（如 BigQuery、Snowflake），再利用 SQL 在倉儲內轉換。雲端倉儲算力強大可按需計費，ELT 保留原始資料靈活性高，是現代資料棧（dbt + 雲端倉儲）的主流模式。',
+  },
+  {
+    subject: '科目二',
+    q: '若需儲存社群網路的「用戶關係圖」並高效查詢「朋友的朋友」，最適合的資料庫類型是？',
+    opts: ['A. 鍵值資料庫（Key-Value Store）如 Redis', 'B. 文件資料庫（Document Store）如 MongoDB', 'C. 圖形資料庫（Graph Database）如 Neo4j', 'D. 列族資料庫（Column-Family）如 Cassandra'],
+    ans: 'C',
+    exp: '圖形資料庫以節點（Node）和邊（Edge）儲存實體與關係，在多層關係遍歷（如「朋友的朋友的朋友」）查詢上比關聯式資料庫高出數量級效率（無需多層 JOIN）。Neo4j 是最主流的圖形資料庫，適合社群網路分析、知識圖譜、推薦系統、詐欺偵測（資金流向追蹤）。',
+  },
+  {
+    subject: '科目二',
+    q: '卡方檢定（Chi-Square Test of Independence）適用於哪種分析場景？',
+    opts: ['A. 比較兩組連續數值的均值是否有顯著差異', 'B. 檢驗兩個類別變數之間是否存在統計關聯性', 'C. 預測連續目標變數的未來數值', 'D. 評估時間序列資料的週期性'],
+    ans: 'B',
+    exp: '卡方獨立性檢定比較觀測頻率與期望頻率，判斷兩個類別變數（如性別 vs 購買行為）是否相互獨立。p-value < 0.05 拒絕獨立假設，即兩變數有統計關聯。t-test 比較兩組連續均值差異；ANOVA 比較多組；線性迴歸預測連續值。',
+  },
+  {
+    subject: '科目二',
+    q: '「特徵庫（Feature Store）」在 MLOps 的核心價值是？',
+    opts: ['A. 儲存模型訓練完成後的權重文件', 'B. 集中管理並共享特徵計算邏輯，確保訓練/推論使用一致特徵，避免訓練-服務偏差', 'C. 自動執行特徵工程和特徵選擇', 'D. 提供特徵重要性的可解釋分析'],
+    ans: 'B',
+    exp: '特徵庫（Feature Store）解決 Training-Serving Skew（訓練時和推論時特徵計算不一致導致效能下降）。功能：特徵共享（不同團隊重用）、版本控制、Point-in-time Correct Joins（訓練時使用歷史正確特徵值）、線上/離線服務。代表工具：Feast、Tecton、Databricks Feature Store。',
+  },
+  {
+    subject: '科目二',
+    q: 'Apache Sqoop 在 Hadoop 生態系的主要功能是？',
+    opts: ['A. 即時串流資料的擷取與處理', 'B. 在關聯式資料庫（RDBMS）與 HDFS/Hive 之間批次匯入/匯出資料', 'C. 分散式訊息佇列，解耦生產者和消費者', 'D. 工作流排程與資料管線監控'],
+    ans: 'B',
+    exp: 'Sqoop（SQL-to-Hadoop）是批次資料遷移工具：sqoop import 從 MySQL/Oracle/SQL Server 等 RDBMS 匯入資料至 HDFS/Hive/HBase；sqoop export 將 Hadoop 處理結果寫回 RDBMS。底層使用 MapReduce 平行傳輸，是傳統 ETL 管線中 RDBMS 與 Hadoop 橋接的標準工具。',
+  },
+  {
+    subject: '科目二',
+    q: '大數據系統中「資料分區（Partitioning）」的主要目的是？',
+    opts: ['A. 增加資料備份副本數量提高容錯性', 'B. 將資料按規則分割為子集，提升查詢效能（分區裁剪）和平行處理效率', 'C. 加密資料分段防止未授權存取', 'D. 壓縮資料節省儲存空間'],
+    ans: 'B',
+    exp: '常見分區策略：Range（依範圍，如日期分區）、Hash（依 Key 雜湊均勻分散）、List（依固定值清單）。例如 Hive/Parquet 按日期分區後，查詢特定日期只掃描對應分區（Partition Pruning），大幅減少 I/O 掃描量。Kafka 的 Partition 也實現平行消費和水平擴展。',
+  },
+  {
+    subject: '科目二',
+    q: '識別資料集中「異常值（Outlier）」最常用的統計方法是？',
+    opts: ['A. One-Hot Encoding 後比對向量距離', 'B. IQR 法：低於 Q1−1.5×IQR 或高於 Q3+1.5×IQR 的值視為異常值', 'C. Min-Max Normalization 後超過 1 的值視為異常', 'D. 計算眾數（Mode），與眾數差異大的視為異常'],
+    ans: 'B',
+    exp: 'IQR（四分位距）= Q3（75th percentile）− Q1（25th percentile）。Tukey 圍欄法：低於 Q1−1.5×IQR 或高於 Q3+1.5×IQR 的值為異常值，對非常態分佈較穩健。另一方法：Z-score 法（|z| > 3 視為異常），適合常態分佈資料。兩者常配合 Box Plot（箱型圖）視覺化使用。',
   },
 ];
